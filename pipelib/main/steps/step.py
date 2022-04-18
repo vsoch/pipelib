@@ -6,6 +6,7 @@ from pipelib.logger import logger
 import inspect
 import typing
 import abc
+import copy
 
 
 class BaseStep:
@@ -16,9 +17,16 @@ class BaseStep:
     required = []
     defaults = {}
 
+    def __init__(self, **kwargs):
+        self.kwargs = self.check_kwargs(kwargs)
+
     @property
     def name(self):
         return self.__class__.__name__.split(".")[-1]
+
+    @property
+    def baseclass(self):
+        return self.__class__.__base__
 
     def __str__(self) -> str:
         return self.name
@@ -91,7 +99,97 @@ class BooleanStep(BaseStep):
     A boolean step must return true or false, and we keep the item if True.
     """
 
-    def run(self, items: list, **kwargs) -> list:
+    def __init__(self, **kwargs):
+
+        # Make sure we don't re-create anything!
+        if not hasattr(self, "reverse"):
+            self.reverse = False
+        if not hasattr(self, "compose"):
+            self.compose = []
+        super().__init__(**kwargs)
+
+    def operator_name(self):
+        """
+        Ensure the operator is represented in the class name
+        """
+        if self.reversed:
+            return "Not" + self.name
+        return self.name
+
+    def __invert__(self):
+        """
+        We can say "~step" and reverse the logic.
+        """
+        self.reverse = True
+        return self
+
+    def __or__(self, other):
+        """
+        Combine boolean steps into a single step with OR. E.g.,
+
+        steps.HasAllLower() | steps.HasMinLength()
+        """
+        print("OR")
+        import IPython
+
+        IPython.embed()
+
+    def __and__(self, other):
+        """
+        Combine boolean steps into a single step with AND. E.g.,
+
+        steps.HasAllLower() & steps.HasMinLength()
+        """
+        # The classes must be the same type
+        if self.baseclass != other.baseclass:
+            logger.exit(
+                f"{self} and {other} have different base classes and cannot be combined."
+            )
+
+        # Previous _run functions added to the class by name
+        run1_func = self.name + "_run"
+        run2_func = other.name + "_run"
+
+        # Combine kwargs to pass to both
+        combined_kwargs = copy.deepcopy(self.kwargs)
+        combined_kwargs.update(other.kwargs)
+
+        # Assemble list of previously composed functions
+        composed = copy.deepcopy(self.compose)
+        composed += other.compose
+
+        # Add each to composed
+        for item in [(run1_func, self.reverse), (run2_func, other.reverse)]:
+            composed.append({"func": item[0], "reversed": item[1]})
+
+        # The custom run should run the first and second
+        def _run(self, item: typing.Any, **kwargs) -> bool:
+            result = True
+
+            # Update the result with each check
+            for entry in self.composed:
+                res = getattr(self, entry["func"])(item, **kwargs)
+                if entry["reversed"]:
+                    res = not res
+                result = result and res
+            return result
+
+        # Create a new Class named by the two classes we are combining
+        classname = "%s_AND_%s" % (self.operator_name, other.operator_name)
+        combined = type(
+            classname,
+            (self.baseclass,),
+            {
+                "_run": _run,
+                run1_func: self._run,
+                run2_func: other._run,
+                "composed": composed,
+                "kwargs": combined_kwargs,
+            },
+        )
+        return combined(**combined_kwargs)
+
+    def run(self, items: list) -> list:
         """
         Run is the main calling step for a pipeline step.
 
@@ -99,13 +197,18 @@ class BooleanStep(BaseStep):
         This function checks that required arguments are provided, and then
         calls the underlying _run that should be implemented by the step.
         """
-        kwargs = self.check_kwargs(kwargs)
-
         keepers = []
         for item in items:
 
             # Keep the item if the outcome is True
-            if self._run(item, **kwargs):
+            outcome = self._run(item, **self.kwargs)
+
+            # True == keep, and we don't want to reverse that logic
+            if outcome and not self.reverse:
+                keepers.append(item)
+
+            # False == keep
+            if not outcome and self.reverse:
                 keepers.append(item)
         return keepers
 
