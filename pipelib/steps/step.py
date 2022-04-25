@@ -3,6 +3,7 @@ __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
 from pipelib.logger import logger
+import pipelib.wrappers as wrappers
 import inspect
 import typing
 import abc
@@ -39,7 +40,11 @@ class BaseStep:
         """
         Return the return types for the run function.
         """
-        sig = inspect.signature(self._run)
+        # Some steps operation on all items at top level (no need for _run)
+        if not hasattr(self, "_run"):
+            sig = inspect.signature(self.run)
+        else:
+            sig = inspect.signature(self._run)
         return sig.return_annotation
 
     @property
@@ -54,6 +59,9 @@ class BaseStep:
         """
         Return the arguments in a named lookup
         """
+        # Some steps operation on all items at top level (no need for _run)
+        if not hasattr(self, "_run"):
+            return {}
         sig = inspect.signature(self._run)
         return {name: x.annotation for name, x in sig.parameters.items()}
 
@@ -63,7 +71,7 @@ class BaseStep:
         """
         for required in self.required:
             if required not in kwargs and required in self.defaults:
-                kwargs = self.defaults[required]
+                kwargs[required] = self.defaults[required]
             if required not in kwargs:
                 logger.exit("%s argument missing for step %s" % (required, self.name))
         return kwargs
@@ -84,9 +92,23 @@ class Step(BaseStep):
         for item in items:
 
             # Keep the item if the outcome is True
-            item = self._run(item, **kwargs)
-            if item:
-                keepers.append(item)
+            updated = self._run(item, **kwargs)
+
+            # A step can choose to preserve a wrappr (or not)
+            # always pass the item through a wrapper to keep the original
+            if updated and not wrappers.is_wrapped(updated):
+                updated = wrappers.Wrapper(updated)
+
+                # We could be handed an wrapped item
+                if hasattr(item, "_original"):
+                    updated._original = item._original
+
+                # Or an uwrapped item
+                else:
+                    updated._original = item
+
+            if updated:
+                keepers.append(updated)
         return keepers
 
     @abc.abstractmethod

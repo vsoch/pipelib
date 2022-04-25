@@ -2,6 +2,7 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
+import pipelib.wrappers as wrappers
 from pipelib.logger import logger
 
 
@@ -19,7 +20,7 @@ class Pipeline:
         Validate that a step has the correct classes and can interact with
         the previous step.
         """
-        for required in ["run", "_run"]:
+        for required in ["run"]:
             if not hasattr(step, required):
                 logger.exit(f"Step {step} is missing required attribute {required}")
 
@@ -38,11 +39,11 @@ class Pipeline:
         we squash the steps.
         """
         # The final thing has to be a step!
-        if "pipelib.main.steps" in step.__class__.__module__:
+        if "pipelib.steps" in step.__class__.__module__:
             self._add_step(step)
 
         # Add steps from other pipelines
-        elif "pipelib.main.pipeline" in step.__class__.__module__:
+        elif "pipelib.pipeline" in step.__class__.__module__:
             if not step.steps:
                 return
             # Add the first step, must be compatible with list
@@ -64,12 +65,18 @@ class Pipeline:
             logger.info(f"Adding step {step}")
             self.steps.append(step)
 
-    def run(self, items):
+    def run(self, items, unwrap=True):
         """
         Run the pipeline to parse the items.
         """
+        # Wrap items in basic wrapper
+        items = [wrappers.Wrapper(x) for x in items if not wrappers.is_wrapped(x)]
         for step in self.steps:
             if not items:
                 break
             items = step.run(items=items)
-        return items
+        if not unwrap:
+            return items
+
+        # Unwrap to only be final string
+        return [str(x) for x in items]
