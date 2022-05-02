@@ -1,3 +1,4 @@
+from .imports import dynamic_import
 from .terminal import (
     run_command,
     check_install,
@@ -9,12 +10,12 @@ from .terminal import (
     confirm_uninstall,
 )
 from .fileio import (
-    can_be_deleted,
     copyfile,
     creation_date,
     get_file_hash,
     get_tmpdir,
     get_tmpfile,
+    list_modules,
     mkdir_p,
     mkdirp,
     rmdir_to_base,

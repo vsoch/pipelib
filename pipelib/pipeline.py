@@ -74,6 +74,7 @@ class Pipeline:
         for step in self.steps:
             if not items:
                 break
+            logger.info(f">> {step} : {step.kwargs}")
             items = step.run(items=items)
         if not unwrap:
             return items

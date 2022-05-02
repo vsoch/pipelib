@@ -33,15 +33,14 @@ class ContainerTagSort(step.BaseStep):
     ascending (bool) : return ascending ordered results
     """
 
-    def run(self, items: list, **kwargs) -> list:
+    def run(self, items: list) -> list:
         """
         Wrap in a LooseVersion to allow sort and filter of tags.
         """
-        kwargs = self.check_kwargs(kwargs)
-        unique_major = kwargs.get("unique_major")
-        unique_minor = kwargs.get("unique_minor")
-        unique_patch = kwargs.get("unique_patch")
-        ascending = kwargs.get("ascending")
+        unique_major = self.kwargs.get("unique_major")
+        unique_minor = self.kwargs.get("unique_minor")
+        unique_patch = self.kwargs.get("unique_patch")
+        ascending = self.kwargs.get("ascending")
 
         # We must choose one convention, default to patch
         if not any([unique_major, unique_minor, unique_patch]):

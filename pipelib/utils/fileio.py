@@ -14,19 +14,16 @@ import json
 from pipelib.logger import logger
 
 
-def can_be_deleted(path, ignore_files=None):
+def list_modules(path):
     """
-    A path can be deleted if it contains no entries, *or*
-    if the only files are in ignore_files
+    List python modules under a path.
     """
-    ignore_files = ignore_files or []
-    if os.path.exists(path):
-        entries = os.listdir(path)
-        if not entries:
-            return True
-        if set(ignore_files).issuperset(entries):
-            return True
-    return False
+    module_files = []
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            if filename.endswith(".py") and not filename.startswith("_"):
+                module_files.append(os.path.join(path, root, filename))
+    return module_files
 
 
 def creation_date(filename):

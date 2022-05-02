@@ -14,6 +14,7 @@ class LooseVersionWrapper(Wrapper, LooseVersion):
     do custom parsing of the version string for common patterns of container
     tags to derive a more meaningful version.
     """
+
     @property
     def major_minor(self):
         if self._major_minor:
