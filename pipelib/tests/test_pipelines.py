@@ -101,7 +101,6 @@ def test_docker_tags_pipeline():
     """
     # Pre-generated sets of steps we can use
     import pipelib.pipelines as pipelines
-    import requests
 
     # Docker tags for biocontainers/diamond
     tags = [

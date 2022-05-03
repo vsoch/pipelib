@@ -1,4 +1,4 @@
-name: ohno
+name: pipelib
 
 on:
   pull_request: []
