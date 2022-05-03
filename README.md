@@ -16,12 +16,10 @@ The initial ideas came from [Singularity Registry HPC (shpc)](https://github.com
 
 ## TODO
 
- - better organize steps into submodules
- - finish real world example with docker tags
+ - add tests for wrappers and pipelines
+ - automated detection / docs for pipelines too
  - should be able to print pretty a pipeline / steps
- - automated discovery of steps
- - automated testing for structure / output of each test
- - docstrings should have examples to show usage
+ - ToInteger doesn't work because we choose an int wrapper - we need to be able to detect output and apply a different wrapper type given int.
  - pipeline steps will need a way to sort / compare / filter
 
 ## Contributors

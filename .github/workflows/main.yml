@@ -1,0 +1,45 @@
+name: ohno
+
+on:
+  pull_request: []
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup black linter
+        run: conda create --quiet --name black pyflakes pytest
+
+      - name: Check Spelling
+        uses: crate-ci/typos@592b36d23c62cb378f6097a292bc902ee73f93ef # version 1.0.4
+        with:
+          files: ./docs/getting_started/ ./docs/index.rst
+
+      - name: Lint python code
+        run: |
+          export PATH="/usr/share/miniconda/bin:$PATH"
+          source activate black
+          pip install black
+          black --check pipelib
+          
+      - name: Check imports with pyflakes
+        run: |
+          export PATH="/usr/share/miniconda/bin:$PATH"
+          source activate black
+          pyflakes pipelib/*.py
+          pyflakes pipelib/pipelines/git.py 
+          pyflakes pipelib/utils/terminal.py
+          pyflakes pipelib/utils/fileio.py
+          pyflakes pipelib/utils/inspect.py
+          pyflakes pipelib/utils/docs.py
+          pyflakes pipelib/steps/
+          pyflakes pipelib/wrappers/base.py 
+          pyflakes pipelib/wrappers/version.py
+
+      - name: Tests
+        run: |
+          export PATH="/usr/share/miniconda/bin:$PATH"
+          source activate black
+          pip install -e .[all]
+          pytest -xs pipelib/tests/test*.py

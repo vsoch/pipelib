@@ -218,7 +218,7 @@ latex_elements = {
 latex_documents = [
     (
         "index",
-        "pipelib.tex",
+        "ohno.tex",
         "Pipelib Documentation",
         "Vanessa Sochat",
         "manual",
@@ -272,10 +272,10 @@ man_pages = [
 texinfo_documents = [
     (
         "index",
-        "pipelib",
+        "ohno",
         "Pipelib API Documentation",
         ["Vanessa Sochat"],
-        "pipelib",
+        "ohno",
         "Pipelib parses error messages.",
         "Miscellaneous",
     ),

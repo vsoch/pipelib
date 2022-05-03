@@ -350,4 +350,32 @@ And finally, just major.
     ['0.9.36.0']
 
 
+Steps
+-----
+
+The following steps are available
+
+
+.. include:: ../steps.inc
+
+You can easily look at the steps that are provided:
+
+.. code-block:: python
+
+    from pipelib.steps import all_steps
+    In [1]: all_steps
+    Out[1]: 
+    {'filter': {'HasMaxLength': pipelib.steps.filters.numeric.HasMaxLength,
+      'HasMinLength': pipelib.steps.filters.numeric.HasMinLength,
+      'HasAllLetters': pipelib.steps.filters.strings.HasAllLetters,
+      'HasAllLowerLettersNumbers': pipelib.steps.filters.strings.HasAllLowerLettersNumbers,
+      'HasPatterns': pipelib.steps.filters.strings.HasPatterns,
+      'CleanCommit': pipelib.steps.filters.git.CleanCommit},
+     'transform': {'ToInteger': pipelib.steps.transform.numeric.ToInteger,
+      'SplitAndJoinN': pipelib.steps.transform.strings.SplitAndJoinN,
+      'ToLowercase': pipelib.steps.transform.strings.ToLowercase,
+      'ToString': pipelib.steps.transform.strings.ToString},
+     'container': {'ContainerTagSort': pipelib.steps.container.tags.ContainerTagSort},
+     'sort': {'BasicSort': pipelib.steps.sort.basic.BasicSort}}
+    
 This library is under development and we will have more documentation coming soon!

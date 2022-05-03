@@ -11,6 +11,13 @@ class CleanCommit(step.Step):
     remove and return just the version string. E.g.,:
 
     0.9.10--hdbcaa40_3 -> 0.9.10.3
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(CleanCommit())
+    >>> pipeline.run(["0.9.10--hdbcaa40_3"])
+    ['0.9.10.3']
+    >>> pipeline.run(["abcde"])
+    ['abcde']
     """
 
     def _run(self, item, **kwargs):

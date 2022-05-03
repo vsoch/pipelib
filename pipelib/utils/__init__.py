@@ -1,4 +1,5 @@
-from .imports import dynamic_import
+from .docs import get_docstring
+from .inspect import dynamic_import
 from .terminal import (
     run_command,
     check_install,
@@ -18,7 +19,6 @@ from .fileio import (
     list_modules,
     mkdir_p,
     mkdirp,
-    rmdir_to_base,
     print_json,
     read_file,
     read_json,

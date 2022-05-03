@@ -50,5 +50,5 @@ Resources
     :hidden:
     :maxdepth: 1
 
-    api_reference/ohno
+    api_reference/pipelib
     api_reference/internal/modules

@@ -9,6 +9,20 @@ import pipelib.wrappers as wrappers
 
 
 class ContainerTagSort(step.BaseStep):
+    """
+    Parse container tag versions and return a filtered and sorted set.
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(ContainerTagSort(ascending=True))
+    >>> pipeline.run(["1.2.3", "1.2.1"])
+    ['1.2.1', '1.2.3']
+    >>> pipeline = Pipeline(ContainerTagSort(ascending=False))
+    >>> pipeline.run(["1.2.3", "1.2.1"])
+    ['1.2.3', '1.2.1']
+    >>> pipeline = Pipeline(ContainerTagSort(unique_major=True))
+    >>> pipeline.run(["1.2.3", "1.2.1"])
+    ['1.2.3']
+    """
 
     required = ["unique_patch", "unique_minor", "unique_major", "ascending"]
     defaults = {

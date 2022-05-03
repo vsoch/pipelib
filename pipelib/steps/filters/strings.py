@@ -8,7 +8,14 @@ import re
 
 class HasPatterns(step.BooleanStep):
     """
-    Determine if items match a pattern of interest
+    Determine if items match a pattern of interest.
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(HasPatterns(filters=['monkey']))
+    >>> pipeline.run(["red-monkey"])
+    ['red-monkey']
+    >>> pipeline.run(["green-fish"])
+    []
     """
 
     required = ["filters"]
@@ -25,6 +32,13 @@ class HasPatterns(step.BooleanStep):
 class HasAllLetters(step.BooleanStep):
     """
     Keep items with all letters (no numbers or special characters)
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(HasAllLetters())
+    >>> pipeline.run(["abcde"])
+    ['abcde']
+    >>> pipeline.run(["abcde1"])
+    []
     """
 
     def _run(self, item, **kwargs) -> bool:
@@ -33,7 +47,14 @@ class HasAllLetters(step.BooleanStep):
 
 class HasAllLowerLettersNumbers(step.BooleanStep):
     """
-    Keep the string if it's the string is only lowercase letters and numbers.
+    Keep the string if is only lowercase letters and numbers.
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(HasAllLowerLettersNumbers())
+    >>> pipeline.run(["abcde123"])
+    ['abcde123']
+    >>> pipeline.run(["ABCde1"])
+    []
     """
 
     def _run(self, item, **kwargs) -> bool:

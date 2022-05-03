@@ -74,6 +74,11 @@ class BaseStep:
                 kwargs[required] = self.defaults[required]
             if required not in kwargs:
                 logger.exit("%s argument missing for step %s" % (required, self.name))
+
+        # Add all defaults
+        for k, v in self.defaults.items():
+            if k not in kwargs:
+                kwargs[k] = v
         return kwargs
 
 
@@ -86,13 +91,11 @@ class Step(BaseStep):
         """
         Loop through items, keep items that are not None.
         """
-        kwargs = self.check_kwargs(kwargs)
-
         keepers = []
         for item in items:
 
             # Keep the item if the outcome is True
-            updated = self._run(item, **kwargs)
+            updated = self._run(item, **self.kwargs)
 
             # A step can choose to preserve a wrappr (or not)
             # always pass the item through a wrapper to keep the original

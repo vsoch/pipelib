@@ -81,12 +81,3 @@ pipelib.steps module
     :members:
     :undoc-members:
     :show-inheritance:
-
-pipelib.main.client module
---------------------------
-
-.. automodule:: pipelib.main.client
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
