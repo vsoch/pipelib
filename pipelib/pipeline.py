@@ -13,6 +13,8 @@ class Pipeline:
 
     def __init__(self, steps=None):
         self.steps = []
+        if steps and not isinstance(steps, (tuple, str)):
+            steps = [steps]
         [self.add_step(s) for s in steps or []]
 
     def _validate_step(self, previous, step):
@@ -65,7 +67,7 @@ class Pipeline:
             logger.info(f"Adding step {step}")
             self.steps.append(step)
 
-    def run(self, items, unwrap=True):
+    def run(self, items, unwrap=True, **kwargs):
         """
         Run the pipeline to parse the items.
         """
@@ -74,7 +76,11 @@ class Pipeline:
         for step in self.steps:
             if not items:
                 break
-            items = step.run(items=items)
+            logger.info(f">> {step} : {step.kwargs}")
+
+            # The kwargs are runtime kwargs, those for the step should be set
+            # and checked on creation of the step. No validation is done of these.
+            items = step.run(items=items, **kwargs)
         if not unwrap:
             return items
 

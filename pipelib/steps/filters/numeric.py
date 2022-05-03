@@ -6,11 +6,19 @@ from pipelib.steps import step
 
 
 class HasMinLength(step.BooleanStep):
+    """
+    Keep items (return true) given a minimum length
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(HasMinLength(length=9))
+    >>> pipeline.run(["tooshort"])
+    []
+    >>> pipeline.run(["muchlonger"])
+    ['muchlonger']
+    """
+
     required = ["length"]
     defaults = {"length": 10}
-    """
-    Keep items with all letters (no numbers or special characters)
-    """
 
     def _run(self, item, **kwargs) -> bool:
         length = kwargs["length"]
@@ -20,11 +28,19 @@ class HasMinLength(step.BooleanStep):
 
 
 class HasMaxLength(step.BooleanStep):
+    """
+    Keep items (return true) given a maximum length
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(HasMaxLength(length=6))
+    >>> pipeline.run(["short"])
+    ['short']
+    >>> pipeline.run(["toolong"])
+    []
+    """
+
     required = ["length"]
     defaults = {"length": 10}
-    """
-    Keep items with all letters (no numbers or special characters)
-    """
 
     def _run(self, item, **kwargs) -> bool:
         length = kwargs["length"]

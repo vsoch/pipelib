@@ -14,19 +14,16 @@ import json
 from pipelib.logger import logger
 
 
-def can_be_deleted(path, ignore_files=None):
+def list_modules(path):
     """
-    A path can be deleted if it contains no entries, *or*
-    if the only files are in ignore_files
+    List python modules under a path.
     """
-    ignore_files = ignore_files or []
-    if os.path.exists(path):
-        entries = os.listdir(path)
-        if not entries:
-            return True
-        if set(ignore_files).issuperset(entries):
-            return True
-    return False
+    module_files = []
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            if filename.endswith(".py") and not filename.startswith("_"):
+                module_files.append(os.path.join(path, root, filename))
+    return module_files
 
 
 def creation_date(filename):
@@ -61,28 +58,6 @@ def mkdir_p(path):
             logger.exit("Error creating path %s, exiting." % path)
 
 
-def rmdir_to_base(path, base_path):
-    """
-    Delete the tree under $path and all the parents
-    up to $base_path as long as they are empty
-    """
-    if not os.path.isdir(base_path):
-        logger.exit("Error: %s is not a directory" % base_path)
-    if not path.startswith(base_path):
-        logger.exit("Error: %s is not a parent of %s" % (base_path, path))
-
-    if os.path.exists(path):
-        shutil.rmtree(path)
-
-    # If directories above it are empty, remove
-    while path != base_path:
-        if os.path.exists(path):
-            if not can_be_deleted(path, [".version"]):
-                break
-            shutil.rmtree(path)
-        path = os.path.dirname(path)
-
-
 def get_tmpfile(tmpdir=None, prefix=""):
     """
     Get a temporary file with an optional prefix.
@@ -106,7 +81,7 @@ def get_tmpdir(tmpdir=None, prefix="", create=True):
     Get a temporary directory for an operation.
     """
     tmpdir = tmpdir or tempfile.gettempdir()
-    prefix = prefix or "shpc-tmp"
+    prefix = prefix or "pipelib-tmp"
     prefix = "%s.%s" % (prefix, next(tempfile._get_candidate_names()))
     tmpdir = os.path.join(tmpdir, prefix)
 

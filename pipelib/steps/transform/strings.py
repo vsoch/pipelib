@@ -10,6 +10,13 @@ from pipelib.steps import step
 class ToLowercase(step.Step):
     """
     Convert the item to all lowercase.
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(ToLowercase())
+    >>> pipeline.run(["Mango"])
+    ['mango']
+    >>> pipeline.run(["avocado"])
+    ['avocado']
     """
 
     def _run(self, item, **kwargs):
@@ -19,10 +26,17 @@ class ToLowercase(step.Step):
 class ToString(step.Step):
     """
     Convert the item to a string (typically from a wrapper)
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(ToString())
+    >>> pipeline.run([1])
+    ['1']
+    >>> pipeline.run(["abcde"])
+    ['abcde']
     """
 
     def _run(self, item, **kwargs):
-        return item.lower()
+        return str(item)
 
 
 class SplitAndJoinN(step.Step):
@@ -30,10 +44,18 @@ class SplitAndJoinN(step.Step):
     Split a string by one delimiter, join by another.
     Both are required. By default, we split and join for ALL
     but this can be customized with split_n.
+
+    >>> from pipelib.pipeline import Pipeline
+    >>> pipeline = Pipeline(SplitAndJoinN(split_by='-', join_by='_'))
+    >>> pipeline.run(["one-two-three"])
+    ['one_two_three']
+    >>> pipeline = Pipeline(SplitAndJoinN(split_by='-', join_by='_', split_n=1))
+    >>> pipeline.run(["one-two-three"])
+    ['one_two-three']
     """
 
     required = ["split_by", "join_by"]
-    defaults = {"split_n": 1}
+    defaults = {"split_n": -1}
 
     def _run(self, item, **kwargs):
         split_by = kwargs.get("split_by")
