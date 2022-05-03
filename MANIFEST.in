@@ -1,9 +1,0 @@
-include README.md LICENSE
-recursive-include pipelib *
-prune env*
-prune compose*
-global-exclude .env
-global-exclude *.py[co]
-recursive-exclude .git *
-global-exclude __pycache__
-prune docs*

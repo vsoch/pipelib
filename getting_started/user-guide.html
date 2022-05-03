@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Guide &mdash; Pipelib 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx-argparse.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pipelib Python Module" href="../api_reference/pipelib.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Pipelib
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-simple-example">A Simple Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline-logic">Pipeline Logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combining-pipelines">Combining Pipelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-real-world-example-docker-tags">A Real World Example - Docker Tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/pipelib.html">Pipelib Python Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/internal/modules.html">Internal API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pipelib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Getting Started</a> &raquo;</li>
+      <li>User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/getting_started/user-guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="user-guide">
+<span id="getting-started-user-guide"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline"></a></h1>
+<p>Pipelib is a library for creating pipelines. You can parse, compare, and order iterables. With Pipelib you can:</p>
+<ol class="arabic simple">
+<li>Create a custom pipeline to parse and compare version strings</li>
+<li>Use a collection of provided sorting functions for custom sorts.</li>
+<li>Assemble different processing blocks to pre-process inputs first.</li>
+</ol>
+<p>If you have a question, find a bug, or want to request a feature!
+This is an open source project and we are eager for your contribution. 🎉️</p>
+<div class="section" id="concepts">
+<span id="getting-started-user-guide-concepts"></span><h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<p>Pipelib has a few concepts:</p>
+<ul class="simple">
+<li>a <em>pipeline</em> is a collection of steps that take, as input, a listing of items and return a parser and filtered list</li>
+<li>a <em>step</em> is some action in a pipeline. There are different kinds of steps
+- <em>filter</em> steps are boolean steps, meaning functions that return True/False to indicate if the item should be kept.
+- <em>transform</em> steps take the initial input and return a different version. If the resulting item is empty or None, is it not included.
+- <em>sort</em> performs some kind of specialized sort or ordering, usually expecting a list with something sortable.
+- <em>custom</em> a custom step usually can perform any kind of operation (or more than one), as an example a step to filter and sort container tags.</li>
+<li>a <em>wrapper</em> is (exactly that) - an internal wrapper class to an item. Wrappers are used inside steps and allow for things like sorting and comparison. You probably don’t need to worry about wrappers unless you want to develop for pipelib.</li>
+</ul>
+<p>Pipelines are composeable, meaning that you can insert an entire pipeline into another pipeline as a step.</p>
+</div>
+<div class="section" id="usage">
+<span id="getting-started-user-guide-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>Once you have <code class="docutils literal notranslate"><span class="pre">pipelib</span></code> installed (<a class="reference internal" href="installation.html#getting-started-installation"><span class="std std-ref">Installation</span></a>) you
+can parse your errors fairly easily, either using ohno as a wrapper or post-run
+log parser.</p>
+<div class="section" id="a-simple-example">
+<span id="getting-started-user-guide-usage-simple-example"></span><h3>A Simple Example<a class="headerlink" href="#a-simple-example" title="Permalink to this headline"></a></h3>
+<p>Here is a simple example to process and filter a list of strings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
+
+<span class="c1"># A pipeline to process a list of strings</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+
+   <span class="c1"># convert everything to lowercase</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">ToLowercase</span><span class="p">(),</span>
+
+   <span class="c1"># don&#39;t include anything with &quot;two&quot;</span>
+   <span class="o">~</span><span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasPatterns</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;two&quot;</span><span class="p">])</span>
+<span class="p">)</span>
+
+<span class="c1"># Strings to process</span>
+<span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;item-ONE&#39;</span><span class="p">,</span> <span class="s1">&#39;item-TWO&#39;</span><span class="p">,</span> <span class="s1">&#39;item-two-THREE&#39;</span><span class="p">]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+<span class="c1"># [&#39;item-one&#39;]</span>
+</pre></div>
+</div>
+<p>In the above, you can always use the <cite>~</cite> symbol to reverse the functionality of a step.
+E.g., a step named <cite>steps.HasMinLength()</cite> will return True given that an item has a min length
+that you’ve provided, and the item will be kept for further processing in the pipeline.
+However, <cite>~steps.HasMinLength()</cite> will do the opposite, not including those same items that have
+the min length (and keeping those that do not).</p>
+</div>
+<div class="section" id="pipeline-logic">
+<span id="getting-started-user-guide-usage-pipeline-logic"></span><h3>Pipeline Logic<a class="headerlink" href="#pipeline-logic" title="Permalink to this headline"></a></h3>
+<p>Steps are composable, meaning that you can chain them together into logical statements.
+As an example, let’s say part of my processing needs to determine if a string has a commit
+reference, where generally I want to check:</p>
+<ul class="simple">
+<li>the length is &gt;= 10</li>
+<li>there are not all letters</li>
+</ul>
+<p>It wouldn’t work to check all of these separately (as their own steps) because I want them
+grouped together as one condition, e.g.,</p>
+<p>&gt; Don’t keep if the length is &gt;= 10 AND there are not all letters</p>
+<p>We can thus compose steps into this logic as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
+
+<span class="c1"># We want to keep those length &gt;= 10 and not all letters</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span>
+ <span class="s1">&#39;0.9.24--ha87ae23_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.19--1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.14--1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ishouldberemoved&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.10--hdbcaa40_3&#39;</span><span class="p">]</span>
+
+<span class="c1"># A pipeline to process docker tags</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+   <span class="c1"># Example of chaining steps together</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasMinLength</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasAllLetters</span><span class="p">(),</span>
+<span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+<span class="c1"># [&#39;0.9.24--ha87ae23_0&#39;, &#39;0.9.10--hdbcaa40_3&#39;]</span>
+</pre></div>
+</div>
+<p>As expected, the above returned have length &gt;= 10 and aren’t all letters! And
+technically, the pipeline above only has one step, which is generated with out custom logic. Note
+that for this to work, you need to chain together steps of the same type. All of the above are class <cite>BooleanStep</cite>
+so they will return a True or False that can be combined (<cite>&amp;</cite>), and an outcome that we can take the inverse of (<cite>~</cite>).</p>
+</div>
+<div class="section" id="combining-pipelines">
+<span id="getting-started-user-guide-usage-combining-pipelines"></span><h3>Combining Pipelines<a class="headerlink" href="#combining-pipelines" title="Permalink to this headline"></a></h3>
+<p>It might be the case that you want to re-use the same pipeline over again, or even include
+it with another pipeline! We can actually do that by just using the pipeline as a step.
+To start with our previous example, let’s say we turn it into some kind of check for a commit,
+because commits never have all letters and are usually &gt;= 10. Maybe we want to run these preprocessing
+steps, split the tag by the <cite>–</cite> to remove the remainder, and then turn it into a Version we can
+sort.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
+
+<span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Orange&quot;</span><span class="p">,</span> <span class="s2">&quot;Melon&quot;</span><span class="p">,</span> <span class="s2">&quot;Watermelon&quot;</span><span class="p">,</span> <span class="s2">&quot;Fruit23&quot;</span><span class="p">]</span>
+<span class="n">preprocess</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Example of chaining steps together</span>
+        <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasMaxLength</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasAllLetters</span><span class="p">(),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Add this preprocess step alongside other steps (make lowercase)</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">ToLowercase</span><span class="p">(),</span>
+   <span class="n">preprocess</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Createa a new pipeline and run</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># We should expect orange and melon!</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;melon&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-real-world-example-docker-tags">
+<span id="getting-started-user-guide-usage-docker-tags"></span><h3>A Real World Example - Docker Tags<a class="headerlink" href="#a-real-world-example-docker-tags" title="Permalink to this headline"></a></h3>
+<p>A more real world example might be starting with a list of tags and then both filtering
+and sorting. For example, if you look at tags for [biocontainers/diamond](<a class="reference external" href="https://crane.ggcr.dev/ls/quay.io/biocontainers/diamond">https://crane.ggcr.dev/ls/quay.io/biocontainers/diamond</a>)
+you see a lot of duplicate versions, and things like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">...</span>
+<span class="go">0.9.14--1</span>
+<span class="go">0.9.14--0</span>
+<span class="go">0.8.22--boost1.60_1</span>
+<span class="go">0.7.12--boost1.61_0</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>It could be that we want to filter out boost (or keep it) and that we want to only preserve <code class="docutils literal notranslate"><span class="pre">0.9.14--1</span></code> as the “latest”
+version of <code class="docutils literal notranslate"><span class="pre">0.9.14</span></code>. To support this, you might do the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
+
+<span class="c1"># Pre-generated sets of steps we can use</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipelines</span> <span class="k">as</span> <span class="nn">pipelines</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c1"># Docker tags for biocontainers/diamond</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://crane.ggcr.dev/ls/quay.io/biocontainers/diamond&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
+
+<span class="c1"># A pipeline to process docker tags</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+
+   <span class="c1"># don&#39;t include tags with boost</span>
+   <span class="o">~</span><span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasPatterns</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;boost&quot;</span><span class="p">]),</span>
+
+   <span class="c1"># Filter out those that look like commits</span>
+   <span class="n">pipelines</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">RemoveCommits</span><span class="p">,</span>
+
+   <span class="c1"># Scrub commits from version string</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">CleanCommit</span><span class="p">(),</span>
+
+   <span class="c1"># Parse versions, return sorted ascending, and taking version major.minor.patch into account</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">ContainerTagSort</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, all pipelines turn the items as strings, meaning the processed ones. For this reason,
+the result we get back is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;0.9.36.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.35.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.34.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.32.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.30.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.29.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.28.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.26.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.25.0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.24.1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.21.1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.19.4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.14.1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.10.4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.36.4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.31.1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.30.3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.29.4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.28.3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.27.4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.26.3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.22.4&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Do you see a problem with this? These are the filtered and reduced original tags, but they aren’t
+super useful to us if we actually need to pull the containers! Although it’s neat to see that N=50 has been
+reduced to N=22, and that the parser is honoring our request to consider patches as unique, we can’t really do
+anything with this. Let’s try again, but asking pipelib to not “unwrap” the result:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="n">unwrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The list may look the same, but we are actually looking at wrapped results, each of which has an <cite>_original</cite>
+attribute that contains the original tab!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_original</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">updated</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;0.9.36--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.35--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.34--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.32--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.30--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.29--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.28--h56fc30b_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.26--hfb76ee0_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.25--hfb76ee0_0&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.24--ha888412_1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.21--1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.19--h8b12597_4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.14--1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.9.10--h8b12597_4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.36--h8b12597_4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.31--1&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.30--h8b12597_3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.29--h8b12597_4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.28--h8b12597_3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.27--h8b12597_4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.26--h8b12597_3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;0.8.22--hdbcaa40_4&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that this particular pipeline also supports different variations of the container
+parsing step to ask for unique versions on the level of major, minor, or patch (default, above):
+Here we ask for just minor versions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># A pipeline to process docker tags</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+
+   <span class="c1"># don&#39;t include tags with boost</span>
+   <span class="o">~</span><span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasPatterns</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;boost&quot;</span><span class="p">]),</span>
+
+   <span class="c1"># Filter out those that look like commits</span>
+   <span class="n">pipelines</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">RemoveCommits</span><span class="p">,</span>
+
+   <span class="c1"># Scrub commits from version string</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">CleanCommit</span><span class="p">(),</span>
+
+   <span class="c1"># Parse versions, return sorted ascending, and taking version major.minor.patch into account</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">ContainerTagSort</span><span class="p">(</span><span class="n">unique_minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;0.9.36.0&#39;</span><span class="p">,</span> <span class="s1">&#39;0.8.36.4&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>And finally, just major.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># A pipeline to process docker tags</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+
+   <span class="c1"># don&#39;t include tags with boost</span>
+   <span class="o">~</span><span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">HasPatterns</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;boost&quot;</span><span class="p">]),</span>
+
+   <span class="c1"># Filter out those that look like commits</span>
+   <span class="n">pipelines</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">RemoveCommits</span><span class="p">,</span>
+
+   <span class="c1"># Scrub commits from version string</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">CleanCommit</span><span class="p">(),</span>
+
+   <span class="c1"># Parse versions, return sorted ascending, and taking version major.minor.patch into account</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">ContainerTagSort</span><span class="p">(</span><span class="n">unique_major</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;0.9.36.0&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this headline"></a></h3>
+<p>The following steps are available</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="19%" />
+<col width="19%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">type</th>
+<th class="head">name</th>
+<th class="head">module</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>filter</td>
+<td>HasMaxLength</td>
+<td>HasMaxLength</td>
+<td>Keep items (return true) given a maximum length</td>
+</tr>
+<tr class="row-odd"><td>filter</td>
+<td>HasMinLength</td>
+<td>HasMinLength</td>
+<td>Keep items (return true) given a minimum length</td>
+</tr>
+<tr class="row-even"><td>filter</td>
+<td>HasAllLetters</td>
+<td>HasAllLetters</td>
+<td>Keep items with all letters (no numbers or special characters)</td>
+</tr>
+<tr class="row-odd"><td>filter</td>
+<td>HasAllLowerLettersNumbers</td>
+<td>HasAllLowerLettersNumbers</td>
+<td>Keep the string if it’s the string is only lowercase letters and numbers.</td>
+</tr>
+<tr class="row-even"><td>filter</td>
+<td>HasPatterns</td>
+<td>HasPatterns</td>
+<td>Determine if items match a pattern of interest.</td>
+</tr>
+<tr class="row-odd"><td>filter</td>
+<td>CleanCommit</td>
+<td>CleanCommit</td>
+<td>Given a container tag that has – and _ separating some commit and version,</td>
+</tr>
+<tr class="row-even"><td>transform</td>
+<td>SplitAndJoinN</td>
+<td>SplitAndJoinN</td>
+<td>Split a string by one delimiter, join by another.</td>
+</tr>
+<tr class="row-odd"><td>transform</td>
+<td>ToLowercase</td>
+<td>ToLowercase</td>
+<td>Convert the item to all lowercase.</td>
+</tr>
+<tr class="row-even"><td>transform</td>
+<td>ToString</td>
+<td>ToString</td>
+<td>Convert the item to a string (typically from a wrapper)</td>
+</tr>
+<tr class="row-odd"><td>container</td>
+<td>ContainerTagSort</td>
+<td>ContainerTagSort</td>
+<td>Parse container tag versions and return a filtered and sorted set.</td>
+</tr>
+<tr class="row-even"><td>sort</td>
+<td>BasicSort</td>
+<td>BasicSort</td>
+<td>Sort the list of items</td>
+</tr>
+</tbody>
+</table>
+<p>You can easily look at the steps that are provided:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pipelib.steps</span> <span class="kn">import</span> <span class="n">all_steps</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">all_steps</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;HasMaxLength&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">numeric</span><span class="o">.</span><span class="n">HasMaxLength</span><span class="p">,</span>
+  <span class="s1">&#39;HasMinLength&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">numeric</span><span class="o">.</span><span class="n">HasMinLength</span><span class="p">,</span>
+  <span class="s1">&#39;HasAllLetters&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">HasAllLetters</span><span class="p">,</span>
+  <span class="s1">&#39;HasAllLowerLettersNumbers&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">HasAllLowerLettersNumbers</span><span class="p">,</span>
+  <span class="s1">&#39;HasPatterns&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">HasPatterns</span><span class="p">,</span>
+  <span class="s1">&#39;CleanCommit&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">CleanCommit</span><span class="p">},</span>
+ <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;ToInteger&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">numeric</span><span class="o">.</span><span class="n">ToInteger</span><span class="p">,</span>
+  <span class="s1">&#39;SplitAndJoinN&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">SplitAndJoinN</span><span class="p">,</span>
+  <span class="s1">&#39;ToLowercase&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">ToLowercase</span><span class="p">,</span>
+  <span class="s1">&#39;ToString&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">ToString</span><span class="p">},</span>
+ <span class="s1">&#39;container&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;ContainerTagSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">ContainerTagSort</span><span class="p">},</span>
+ <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;BasicSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BasicSort</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>This library is under development and we will have more documentation coming soon!</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api_reference/pipelib.html" class="btn btn-neutral float-right" title="Pipelib Python Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Vanessa Sochat.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
