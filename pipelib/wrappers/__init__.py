@@ -1,2 +1,2 @@
-from .version import LooseVersionWrapper
+from .version import VersionWrapper
 from .base import Wrapper, is_wrapped
