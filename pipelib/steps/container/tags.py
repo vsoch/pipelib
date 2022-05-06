@@ -61,7 +61,7 @@ class ContainerTagSort(step.BaseStep):
             unique_patch = True
 
         # Convert to LooseVersionWrapper
-        items = [wrappers.LooseVersionWrapper(x) for x in items]
+        items = [wrappers.VersionWrapper(x) for x in items]
 
         # The sorting will tag a subset with "remove" that aren't sortable
         # This has latest at the top so we grab newest versions of each

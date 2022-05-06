@@ -2,11 +2,22 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2021-2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
-from distutils.version import LooseVersion
+from packaging.version import Version
 from .base import Wrapper
+import re
+
+# https://discuss.python.org/t/pep-632-deprecate-distutils-module/5134/129?page=7
 
 
-class LooseVersionWrapper(Wrapper, LooseVersion):
+class LooseVersion(Version):
+    def __init__(self, vstring=None):
+        if vstring:
+            self.parse(vstring)
+
+    component_re = re.compile(r"(\d+ | [a-z]+ | \.)", re.VERBOSE)
+
+
+class VersionWrapper(Wrapper, LooseVersion):
     """
     Loose version comparison.
 
