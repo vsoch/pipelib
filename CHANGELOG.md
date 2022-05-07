@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/vsoch/pipelib/tree/main) (0.0.x)
+ - shared operator for AND / OR (0.0.12)
  - removing deprecated distutils.LooseVersion (0.0.11)
  - adding composition (0.0.1)
  - skeleton release (0.0.0)
