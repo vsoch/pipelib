@@ -52,7 +52,7 @@ class Pipeline:
             self._add_step(step.steps[0])
 
             # Add the remainder of steps
-            if step.steps:
+            if len(step.steps) > 1:
                 self.steps += step.steps[1:]
         else:
             logger.warning(f"Malformed step {step}, not adding to pipeline!")
