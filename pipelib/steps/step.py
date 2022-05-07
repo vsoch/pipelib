@@ -133,11 +133,12 @@ class BooleanStep(BaseStep):
             self.compose = []
         super().__init__(**kwargs)
 
+    @property
     def operator_name(self):
         """
         Ensure the operator is represented in the class name
         """
-        if self.reversed:
+        if self.reverse:
             return "Not" + self.name
         return self.name
 
@@ -148,16 +149,22 @@ class BooleanStep(BaseStep):
         self.reverse = True
         return self
 
+    def check_compatibility(self, other):
+        """
+        Ensure that two steps have the same base class.
+        """
+        if self.baseclass != other.baseclass:
+            logger.exit(
+                f"{self} and {other} have different base classes and cannot be combined."
+            )
+
     def __or__(self, other):
         """
         Combine boolean steps into a single step with OR. E.g.,
 
         steps.HasAllLower() | steps.HasMinLength()
         """
-        print("OR")
-        import IPython
-
-        IPython.embed()
+        return self._and_or(other, operator="OR")
 
     def __and__(self, other):
         """
@@ -165,11 +172,17 @@ class BooleanStep(BaseStep):
 
         steps.HasAllLower() & steps.HasMinLength()
         """
+        return self._and_or(other)
+
+    def _and_or(self, other, operator="AND"):
+        """
+        The base function to run a logical combination AND or OR
+        """
+        if operator not in ["AND", "OR"]:
+            logger.exit("Operator %s is not supported." % operator)
+
         # The classes must be the same type
-        if self.baseclass != other.baseclass:
-            logger.exit(
-                f"{self} and {other} have different base classes and cannot be combined."
-            )
+        self.check_compatibility(other)
 
         # Previous _run functions added to the class by name
         run1_func = self.name + "_run"
@@ -185,22 +198,35 @@ class BooleanStep(BaseStep):
 
         # Add each to composed
         for item in [(run1_func, self.reverse), (run2_func, other.reverse)]:
-            composed.append({"func": item[0], "reversed": item[1]})
+            composed.append(
+                {"func": item[0], "reversed": item[1], "operator": operator}
+            )
 
         # The custom run should run the first and second
         def _run(self, item: typing.Any, **kwargs) -> bool:
-            result = True
+            result = None
 
             # Update the result with each check
             for entry in self.composed:
+
+                # If we don't have a result, AND is True, OR is False
+                if result == None:
+                    result = True if operator == "AND" else False
                 res = getattr(self, entry["func"])(item, **kwargs)
                 if entry["reversed"]:
                     res = not res
-                result = result and res
+                if operator == "AND":
+                    result = result and res
+                else:
+                    result = result or res
             return result
 
         # Create a new Class named by the two classes we are combining
-        classname = "%s_AND_%s" % (self.operator_name, other.operator_name)
+        classname = "%s_%s_%s" % (
+            self.operator_name,
+            operator.upper(),
+            other.operator_name,
+        )
         combined = type(
             classname,
             (self.baseclass,),
