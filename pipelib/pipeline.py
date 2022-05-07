@@ -49,10 +49,11 @@ class Pipeline:
             if not step.steps:
                 return
             # Add the first step, must be compatible with list
-            self._add_step(step.steps.pop(0))
+            self._add_step(step.steps[0])
 
             # Add the remainder of steps
-            self.steps += step.steps
+            if step.steps:
+                self.steps += step.steps[1:]
         else:
             logger.warning(f"Malformed step {step}, not adding to pipeline!")
 

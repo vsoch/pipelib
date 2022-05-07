@@ -184,20 +184,23 @@ class BooleanStep(BaseStep):
         # The classes must be the same type
         self.check_compatibility(other)
 
+        # We don't want to update the original class
+        this = copy.deepcopy(self)
+
         # Previous _run functions added to the class by name
-        run1_func = self.name + "_run"
+        run1_func = this.name + "_run"
         run2_func = other.name + "_run"
 
         # Combine kwargs to pass to both
-        combined_kwargs = copy.deepcopy(self.kwargs)
+        combined_kwargs = copy.deepcopy(this.kwargs)
         combined_kwargs.update(other.kwargs)
 
         # Assemble list of previously composed functions
-        composed = copy.deepcopy(self.compose)
+        composed = copy.deepcopy(this.compose)
         composed += other.compose
 
         # Add each to composed
-        for item in [(run1_func, self.reverse), (run2_func, other.reverse)]:
+        for item in [(run1_func, this.reverse), (run2_func, other.reverse)]:
             composed.append(
                 {"func": item[0], "reversed": item[1], "operator": operator}
             )
@@ -223,16 +226,16 @@ class BooleanStep(BaseStep):
 
         # Create a new Class named by the two classes we are combining
         classname = "%s_%s_%s" % (
-            self.operator_name,
+            this.operator_name,
             operator.upper(),
             other.operator_name,
         )
         combined = type(
             classname,
-            (self.baseclass,),
+            (this.baseclass,),
             {
                 "_run": _run,
-                run1_func: self._run,
+                run1_func: this._run,
                 run2_func: other._run,
                 "composed": composed,
                 "kwargs": combined_kwargs,
