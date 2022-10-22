@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Internal API &mdash; Pipelib 0.0.13 documentation</title>
+  <title>Internal API &mdash; Pipelib 0.0.14 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sphinx-argparse.css" type="text/css" />
@@ -16,7 +17,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -32,7 +35,7 @@
             <a href="../../index.html" class="icon icon-home"> Pipelib
           </a>
               <div class="version">
-                0.0.13
+                0.0.14
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -80,27 +83,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="internal-api">
-<h1>Internal API<a class="headerlink" href="#internal-api" title="Permalink to this headline"></a></h1>
+  <section id="internal-api">
+<h1>Internal API<a class="headerlink" href="#internal-api" title="Permalink to this heading"></a></h1>
 <p>These pages document the entire internal API</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pipelib.html">pipelib package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pipelib.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.version">pipelib.version module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.logger">pipelib.logger module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.pipeline">pipelib.pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.logger">pipelib.logger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.BLACK"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLACK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.BOLD_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BOLD_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.COLOR_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.COLOR_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.CYAN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.CYAN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.MAGENTA"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.MAGENTA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.RED"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.RESET_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RESET_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.WHITE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.WHITE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.YELLOW"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.YELLOW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.can_color_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.can_color_tty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.colors"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.colors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.decorate"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.decorate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.emit"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.emit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.ColorizingStreamHandler.is_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.is_tty</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.cleanup"><code class="docutils literal notranslate"><span class="pre">Logger.cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.debug"><code class="docutils literal notranslate"><span class="pre">Logger.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.error"><code class="docutils literal notranslate"><span class="pre">Logger.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.exit"><code class="docutils literal notranslate"><span class="pre">Logger.exit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.handler"><code class="docutils literal notranslate"><span class="pre">Logger.handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.info"><code class="docutils literal notranslate"><span class="pre">Logger.info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.location"><code class="docutils literal notranslate"><span class="pre">Logger.location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.progress"><code class="docutils literal notranslate"><span class="pre">Logger.progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.set_level"><code class="docutils literal notranslate"><span class="pre">Logger.set_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.set_stream_handler"><code class="docutils literal notranslate"><span class="pre">Logger.set_stream_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.shellcmd"><code class="docutils literal notranslate"><span class="pre">Logger.shellcmd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.text_handler"><code class="docutils literal notranslate"><span class="pre">Logger.text_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.logger.Logger.warning"><code class="docutils literal notranslate"><span class="pre">Logger.warning()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.logger.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.pipeline">pipelib.pipeline module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.pipeline.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.pipeline.Pipeline.add_step"><code class="docutils literal notranslate"><span class="pre">Pipeline.add_step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pipelib.html#pipelib.pipeline.Pipeline.run"><code class="docutils literal notranslate"><span class="pre">Pipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.pipelines">pipelib.pipelines module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.wrappers">pipelib.wrappers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.utils">pipelib.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.utils.fileio">pipelib.utils.fileio module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.utils.terminal">pipelib.utils.terminal module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.steps">pipelib.steps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.utils.fileio">pipelib.utils.fileio module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.copyfile"><code class="docutils literal notranslate"><span class="pre">copyfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.creation_date"><code class="docutils literal notranslate"><span class="pre">creation_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.get_file_hash"><code class="docutils literal notranslate"><span class="pre">get_file_hash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.get_tmpdir"><code class="docutils literal notranslate"><span class="pre">get_tmpdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.get_tmpfile"><code class="docutils literal notranslate"><span class="pre">get_tmpfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.list_modules"><code class="docutils literal notranslate"><span class="pre">list_modules()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.mkdir_p"><code class="docutils literal notranslate"><span class="pre">mkdir_p()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.mkdirp"><code class="docutils literal notranslate"><span class="pre">mkdirp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.print_json"><code class="docutils literal notranslate"><span class="pre">print_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.read_file"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.recursive_find"><code class="docutils literal notranslate"><span class="pre">recursive_find()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.write_file"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.fileio.write_json"><code class="docutils literal notranslate"><span class="pre">write_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.utils.terminal">pipelib.utils.terminal module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.check_install"><code class="docutils literal notranslate"><span class="pre">check_install()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.confirm_action"><code class="docutils literal notranslate"><span class="pre">confirm_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.confirm_uninstall"><code class="docutils literal notranslate"><span class="pre">confirm_uninstall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.get_installdir"><code class="docutils literal notranslate"><span class="pre">get_installdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.get_user"><code class="docutils literal notranslate"><span class="pre">get_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.get_userhome"><code class="docutils literal notranslate"><span class="pre">get_userhome()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.run_command"><code class="docutils literal notranslate"><span class="pre">run_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.utils.terminal.which"><code class="docutils literal notranslate"><span class="pre">which()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pipelib.html#module-pipelib.steps">pipelib.steps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipelib.html#pipelib.steps.iter_steps"><code class="docutils literal notranslate"><span class="pre">iter_steps()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
+</section>
 
 
            </div>

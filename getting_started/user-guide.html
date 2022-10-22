@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Guide &mdash; Pipelib 0.0.13 documentation</title>
+  <title>User Guide &mdash; Pipelib 0.0.14 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/sphinx-argparse.css" type="text/css" />
@@ -16,7 +17,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,7 +35,7 @@
             <a href="../index.html" class="icon icon-home"> Pipelib
           </a>
               <div class="version">
-                0.0.13
+                0.0.14
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -52,6 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pipeline-logic">Pipeline Logic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#combining-pipelines">Combining Pipelines</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#a-real-world-example-docker-tags">A Real World Example - Docker Tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-real-world-example-github-tags">A Real World Example - GitHub Tags</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a></li>
 </ul>
 </li>
@@ -89,37 +93,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="user-guide">
-<span id="getting-started-user-guide"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline"></a></h1>
+  <section id="user-guide">
+<span id="getting-started-user-guide"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this heading"></a></h1>
 <p>Pipelib is a library for creating pipelines. You can parse, compare, and order iterables. With Pipelib you can:</p>
 <ol class="arabic simple">
-<li>Create a custom pipeline to parse and compare version strings</li>
-<li>Use a collection of provided sorting functions for custom sorts.</li>
-<li>Assemble different processing blocks to pre-process inputs first.</li>
+<li><p>Create a custom pipeline to parse and compare version strings</p></li>
+<li><p>Use a collection of provided sorting functions for custom sorts.</p></li>
+<li><p>Assemble different processing blocks to pre-process inputs first.</p></li>
 </ol>
 <p>If you have a question, find a bug, or want to request a feature!
 This is an open source project and we are eager for your contribution. 🎉️</p>
-<div class="section" id="concepts">
-<span id="getting-started-user-guide-concepts"></span><h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<section id="concepts">
+<span id="getting-started-user-guide-concepts"></span><h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this heading"></a></h2>
 <p>Pipelib has a few concepts:</p>
 <ul class="simple">
-<li>a <em>pipeline</em> is a collection of steps that take, as input, a listing of items and return a parser and filtered list</li>
-<li>a <em>step</em> is some action in a pipeline. There are different kinds of steps
+<li><p>a <em>pipeline</em> is a collection of steps that take, as input, a listing of items and return a parser and filtered list</p></li>
+<li><p>a <em>step</em> is some action in a pipeline. There are different kinds of steps
 - <em>filter</em> steps are boolean steps, meaning functions that return True/False to indicate if the item should be kept.
 - <em>transform</em> steps take the initial input and return a different version. If the resulting item is empty or None, is it not included.
 - <em>sort</em> performs some kind of specialized sort or ordering, usually expecting a list with something sortable.
-- <em>custom</em> a custom step usually can perform any kind of operation (or more than one), as an example a step to filter and sort container tags.</li>
-<li>a <em>wrapper</em> is (exactly that) - an internal wrapper class to an item. Wrappers are used inside steps and allow for things like sorting and comparison. You probably don’t need to worry about wrappers unless you want to develop for pipelib.</li>
+- <em>custom</em> a custom step usually can perform any kind of operation (or more than one), as an example a step to filter and sort container tags.</p></li>
+<li><p>a <em>wrapper</em> is (exactly that) - an internal wrapper class to an item. Wrappers are used inside steps and allow for things like sorting and comparison. You probably don’t need to worry about wrappers unless you want to develop for pipelib.</p></li>
 </ul>
 <p>Pipelines are composeable, meaning that you can insert an entire pipeline into another pipeline as a step.</p>
-</div>
-<div class="section" id="usage">
-<span id="getting-started-user-guide-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+</section>
+<section id="usage">
+<span id="getting-started-user-guide-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
 <p>Once you have <code class="docutils literal notranslate"><span class="pre">pipelib</span></code> installed (<a class="reference internal" href="installation.html#getting-started-installation"><span class="std std-ref">Installation</span></a>) you
 can parse your errors fairly easily, either using ohno as a wrapper or post-run
 log parser.</p>
-<div class="section" id="a-simple-example">
-<span id="getting-started-user-guide-usage-simple-example"></span><h3>A Simple Example<a class="headerlink" href="#a-simple-example" title="Permalink to this headline"></a></h3>
+<section id="a-simple-example">
+<span id="getting-started-user-guide-usage-simple-example"></span><h3>A Simple Example<a class="headerlink" href="#a-simple-example" title="Permalink to this heading"></a></h3>
 <p>Here is a simple example to process and filter a list of strings:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
 <span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
@@ -149,15 +153,15 @@ E.g., a step named <cite>steps.HasMinLength()</cite> will return True given that
 that you’ve provided, and the item will be kept for further processing in the pipeline.
 However, <cite>~steps.HasMinLength()</cite> will do the opposite, not including those same items that have
 the min length (and keeping those that do not).</p>
-</div>
-<div class="section" id="pipeline-logic">
-<span id="getting-started-user-guide-usage-pipeline-logic"></span><h3>Pipeline Logic<a class="headerlink" href="#pipeline-logic" title="Permalink to this headline"></a></h3>
+</section>
+<section id="pipeline-logic">
+<span id="getting-started-user-guide-usage-pipeline-logic"></span><h3>Pipeline Logic<a class="headerlink" href="#pipeline-logic" title="Permalink to this heading"></a></h3>
 <p>Steps are composable, meaning that you can chain them together into logical statements.
 As an example, let’s say part of my processing needs to determine if a string has a commit
 reference, where generally I want to check:</p>
 <ul class="simple">
-<li>the length is &gt;= 10</li>
-<li>there are not all letters</li>
+<li><p>the length is &gt;= 10</p></li>
+<li><p>there are not all letters</p></li>
 </ul>
 <p>It wouldn’t work to check all of these separately (as their own steps) because I want them
 grouped together as one condition, e.g.,</p>
@@ -191,9 +195,9 @@ grouped together as one condition, e.g.,</p>
 technically, the pipeline above only has one step, which is generated with out custom logic. Note
 that for this to work, you need to chain together steps of the same type. All of the above are class <cite>BooleanStep</cite>
 so they will return a True or False that can be combined (<cite>&amp;</cite>), and an outcome that we can take the inverse of (<cite>~</cite>).</p>
-</div>
-<div class="section" id="combining-pipelines">
-<span id="getting-started-user-guide-usage-combining-pipelines"></span><h3>Combining Pipelines<a class="headerlink" href="#combining-pipelines" title="Permalink to this headline"></a></h3>
+</section>
+<section id="combining-pipelines">
+<span id="getting-started-user-guide-usage-combining-pipelines"></span><h3>Combining Pipelines<a class="headerlink" href="#combining-pipelines" title="Permalink to this heading"></a></h3>
 <p>It might be the case that you want to re-use the same pipeline over again, or even include
 it with another pipeline! We can actually do that by just using the pipeline as a step.
 To start with our previous example, let’s say we turn it into some kind of check for a commit,
@@ -225,9 +229,9 @@ sort.</p>
 <span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;melon&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="a-real-world-example-docker-tags">
-<span id="getting-started-user-guide-usage-docker-tags"></span><h3>A Real World Example - Docker Tags<a class="headerlink" href="#a-real-world-example-docker-tags" title="Permalink to this headline"></a></h3>
+</section>
+<section id="a-real-world-example-docker-tags">
+<span id="getting-started-user-guide-usage-docker-tags"></span><h3>A Real World Example - Docker Tags<a class="headerlink" href="#a-real-world-example-docker-tags" title="Permalink to this heading"></a></h3>
 <p>A more real world example might be starting with a list of tags and then both filtering
 and sorting. For example, if you look at tags for [biocontainers/diamond](<a class="reference external" href="https://crane.ggcr.dev/ls/quay.io/biocontainers/diamond">https://crane.ggcr.dev/ls/quay.io/biocontainers/diamond</a>)
 you see a lot of duplicate versions, and things like:</p>
@@ -383,79 +387,101 @@ Here we ask for just minor versions:</p>
 <span class="p">[</span><span class="s1">&#39;0.9.36.0&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
+</section>
+<section id="a-real-world-example-github-tags">
+<span id="getting-started-user-guide-usage-github-tags"></span><h3>A Real World Example - GitHub Tags<a class="headerlink" href="#a-real-world-example-github-tags" title="Permalink to this heading"></a></h3>
+<p>If you want to filter down GitHub tags to semantic versions, you’re best off using
+the <code class="docutils literal notranslate"><span class="pre">ContainerTagSort</span></code> described previously. However, for some trusted actions,
+we want to stick with a major tag or release like <code class="docutils literal notranslate"><span class="pre">v3</span></code>. This is what this
+step is intended for.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pipelib.steps</span> <span class="k">as</span> <span class="nn">step</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipeline</span> <span class="k">as</span> <span class="nn">pipeline</span>
+
+<span class="c1"># Pre-generated sets of steps we can use</span>
+<span class="kn">import</span> <span class="nn">pipelib.pipelines</span> <span class="k">as</span> <span class="nn">pipelines</span>
+
+<span class="c1"># Example GitHub release tags</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v3&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">,</span> <span class="s1">&#39;v2.5.1&#39;</span><span class="p">]</span>
+
+<span class="c1"># A pipeline to process docker tags</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">(</span>
+
+   <span class="c1"># Parse versions, return sorted ascending, and taking version major.minor.patch into account</span>
+   <span class="n">step</span><span class="o">.</span><span class="n">release</span><span class="o">.</span><span class="n">MajorTagSort</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+<span class="c1"># The updated and transformed items</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="steps">
-<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this headline"></a></h3>
+</section>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
 <p>The following steps are available</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="19%" />
-<col width="19%" />
-<col width="56%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">type</th>
-<th class="head">name</th>
-<th class="head">module</th>
-<th class="head">description</th>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>type</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>module</p></th>
+<th class="head"><p>description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>filter</td>
-<td>HasMaxLength</td>
-<td>HasMaxLength</td>
-<td>Keep items (return true) given a maximum length</td>
+<tbody>
+<tr class="row-even"><td><p>filter</p></td>
+<td><p>HasMaxLength</p></td>
+<td><p>HasMaxLength</p></td>
+<td><p>Keep items (return true) given a maximum length</p></td>
 </tr>
-<tr class="row-odd"><td>filter</td>
-<td>HasMinLength</td>
-<td>HasMinLength</td>
-<td>Keep items (return true) given a minimum length</td>
+<tr class="row-odd"><td><p>filter</p></td>
+<td><p>HasMinLength</p></td>
+<td><p>HasMinLength</p></td>
+<td><p>Keep items (return true) given a minimum length</p></td>
 </tr>
-<tr class="row-even"><td>filter</td>
-<td>HasAllLetters</td>
-<td>HasAllLetters</td>
-<td>Keep items with all letters (no numbers or special characters)</td>
+<tr class="row-even"><td><p>filter</p></td>
+<td><p>HasAllLetters</p></td>
+<td><p>HasAllLetters</p></td>
+<td><p>Keep items with all letters (no numbers or special characters)</p></td>
 </tr>
-<tr class="row-odd"><td>filter</td>
-<td>HasAllLowerLettersNumbers</td>
-<td>HasAllLowerLettersNumbers</td>
-<td>Keep the string if it’s the string is only lowercase letters and numbers.</td>
+<tr class="row-odd"><td><p>filter</p></td>
+<td><p>HasAllLowerLettersNumbers</p></td>
+<td><p>HasAllLowerLettersNumbers</p></td>
+<td><p>Keep the string if it’s the string is only lowercase letters and numbers.</p></td>
 </tr>
-<tr class="row-even"><td>filter</td>
-<td>HasPatterns</td>
-<td>HasPatterns</td>
-<td>Determine if items match a pattern of interest.</td>
+<tr class="row-even"><td><p>filter</p></td>
+<td><p>HasPatterns</p></td>
+<td><p>HasPatterns</p></td>
+<td><p>Determine if items match a pattern of interest.</p></td>
 </tr>
-<tr class="row-odd"><td>filter</td>
-<td>CleanCommit</td>
-<td>CleanCommit</td>
-<td>Given a container tag that has – and _ separating some commit and version,</td>
+<tr class="row-odd"><td><p>filter</p></td>
+<td><p>CleanCommit</p></td>
+<td><p>CleanCommit</p></td>
+<td><p>Given a container tag that has – and _ separating some commit and version,</p></td>
 </tr>
-<tr class="row-even"><td>transform</td>
-<td>SplitAndJoinN</td>
-<td>SplitAndJoinN</td>
-<td>Split a string by one delimiter, join by another.</td>
+<tr class="row-even"><td><p>transform</p></td>
+<td><p>SplitAndJoinN</p></td>
+<td><p>SplitAndJoinN</p></td>
+<td><p>Split a string by one delimiter, join by another.</p></td>
 </tr>
-<tr class="row-odd"><td>transform</td>
-<td>ToLowercase</td>
-<td>ToLowercase</td>
-<td>Convert the item to all lowercase.</td>
+<tr class="row-odd"><td><p>transform</p></td>
+<td><p>ToLowercase</p></td>
+<td><p>ToLowercase</p></td>
+<td><p>Convert the item to all lowercase.</p></td>
 </tr>
-<tr class="row-even"><td>transform</td>
-<td>ToString</td>
-<td>ToString</td>
-<td>Convert the item to a string (typically from a wrapper)</td>
+<tr class="row-even"><td><p>transform</p></td>
+<td><p>ToString</p></td>
+<td><p>ToString</p></td>
+<td><p>Convert the item to a string (typically from a wrapper)</p></td>
 </tr>
-<tr class="row-odd"><td>container</td>
-<td>ContainerTagSort</td>
-<td>ContainerTagSort</td>
-<td>Parse container tag versions and return a filtered and sorted set.</td>
+<tr class="row-odd"><td><p>container</p></td>
+<td><p>ContainerTagSort</p></td>
+<td><p>ContainerTagSort</p></td>
+<td><p>Parse container tag versions and return a filtered and sorted set.</p></td>
 </tr>
-<tr class="row-even"><td>sort</td>
-<td>BasicSort</td>
-<td>BasicSort</td>
-<td>Sort the list of items</td>
+<tr class="row-even"><td><p>sort</p></td>
+<td><p>BasicSort</p></td>
+<td><p>BasicSort</p></td>
+<td><p>Sort the list of items</p></td>
 </tr>
 </tbody>
 </table>
@@ -474,13 +500,14 @@ Here we ask for just minor versions:</p>
   <span class="s1">&#39;ToLowercase&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">ToLowercase</span><span class="p">,</span>
   <span class="s1">&#39;ToString&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">ToString</span><span class="p">},</span>
  <span class="s1">&#39;container&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;ContainerTagSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">ContainerTagSort</span><span class="p">},</span>
- <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;BasicSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BasicSort</span><span class="p">}}</span>
+ <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;BasicSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BasicSort</span><span class="p">},</span>
+ <span class="s1">&#39;release&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;MajorTagSort&#39;</span><span class="p">:</span> <span class="n">pipelib</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">release</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">MajorTagSort</span><span class="p">}}</span>
 </pre></div>
 </div>
 <p>This library is under development and we will have more documentation coming soon!</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
