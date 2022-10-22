@@ -350,6 +350,40 @@ And finally, just major.
     ['0.9.36.0']
 
 
+.. _getting_started-user-guide-usage-github-tags:
+
+
+A Real World Example - GitHub Tags
+----------------------------------
+
+If you want to filter down GitHub tags to semantic versions, you're best off using
+the ``ContainerTagSort`` described previously. However, for some trusted actions,
+we want to stick with a major tag or release like ``v3``. This is what this
+step is intended for.
+
+.. code-block:: python
+
+    import pipelib.steps as step
+    import pipelib.pipeline as pipeline
+
+    # Pre-generated sets of steps we can use
+    import pipelib.pipelines as pipelines
+
+    # Example GitHub release tags
+    tags = ['v3', 'v2', 'v2.5.1']
+
+    # A pipeline to process docker tags
+    steps = (
+
+       # Parse versions, return sorted ascending, and taking version major.minor.patch into account
+       step.release.MajorTagSort()
+    )
+
+    p = pipeline.Pipeline(steps)
+    # The updated and transformed items
+    updated = p.run(tags)
+
+
 Steps
 -----
 
@@ -376,6 +410,7 @@ You can easily look at the steps that are provided:
       'ToLowercase': pipelib.steps.transform.strings.ToLowercase,
       'ToString': pipelib.steps.transform.strings.ToString},
      'container': {'ContainerTagSort': pipelib.steps.container.tags.ContainerTagSort},
-     'sort': {'BasicSort': pipelib.steps.sort.basic.BasicSort}}
+     'sort': {'BasicSort': pipelib.steps.sort.basic.BasicSort},
+     'release': {'MajorTagSort': pipelib.steps.release.tags.MajorTagSort}}
     
 This library is under development and we will have more documentation coming soon!
