@@ -2,12 +2,14 @@ from . import filters
 from . import transform
 from . import container
 from . import sort
+from . import release
 
 all_steps = {
     "filter": filters._lookup,
     "transform": transform._lookup,
     "container": container._lookup,
     "sort": sort._lookup,
+    "release": release._lookup,
 }
 
 
