@@ -161,7 +161,7 @@ sort.
        preprocess,
     )
 
-    # Createa a new pipeline and run
+    # Create a a new pipeline and run
     p = pipeline.Pipeline(steps)
 
     # We should expect orange and melon!
