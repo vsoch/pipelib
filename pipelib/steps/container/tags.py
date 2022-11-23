@@ -73,6 +73,10 @@ class ContainerTagSort(step.BaseStep):
 
         for version in items:
 
+            # Not able to parse, period
+            if not version.version:
+                continue
+                
             # Keep all that don't have any kind of versioning we understand
             if (
                 not version.major_minor
