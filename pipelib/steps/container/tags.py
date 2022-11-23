@@ -2,8 +2,8 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
-from pipelib.steps import step
 import pipelib.wrappers as wrappers
+from pipelib.steps import step
 
 # Container tag specific steps
 
@@ -76,7 +76,7 @@ class ContainerTagSort(step.BaseStep):
             # Not able to parse, period
             if not version.version:
                 continue
-                
+
             # Keep all that don't have any kind of versioning we understand
             if (
                 not version.major_minor

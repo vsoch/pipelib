@@ -8,8 +8,8 @@
 
 import pytest
 
-from pipelib.steps import iter_steps
 import pipelib.utils
+from pipelib.steps import iter_steps
 
 
 @pytest.mark.parametrize("step_type,step_name,step_module", list(iter_steps()))

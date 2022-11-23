@@ -1,5 +1,6 @@
-import pipelib.utils as utils
 import os
+
+import pipelib.utils as utils
 
 _lookup = {}
 here = os.path.abspath(os.path.dirname(__file__))

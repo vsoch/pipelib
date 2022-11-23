@@ -13,8 +13,9 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
+import sys
+
 from recommonmark.parser import CommonMarkParser
 
 source_parsers = {".md": CommonMarkParser}
@@ -60,7 +61,7 @@ master_doc = "index"
 project = "Pipelib"
 copyright = "2022, Vanessa Sochat"
 
-from pipelib import version
+from pipelib import version  # noqa
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

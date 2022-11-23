@@ -2,12 +2,13 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
-from pipelib.logger import logger
-import pipelib.wrappers as wrappers
-import inspect
-import typing
 import abc
 import copy
+import inspect
+import typing
+
+import pipelib.wrappers as wrappers
+from pipelib.logger import logger
 
 
 class BaseStep:
@@ -213,7 +214,7 @@ class BooleanStep(BaseStep):
             for entry in self.composed:
 
                 # If we don't have a result, AND is True, OR is False
-                if result == None:
+                if result is None:
                     result = True if operator == "AND" else False
                 res = getattr(self, entry["func"])(item, **kwargs)
                 if entry["reversed"]:
