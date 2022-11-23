@@ -2,9 +2,11 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2021-2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
-from packaging.version import Version
-from .base import Wrapper
 import re
+
+from packaging.version import Version
+
+from .base import Wrapper
 
 # https://discuss.python.org/t/pep-632-deprecate-distutils-module/5134/129?page=7
 

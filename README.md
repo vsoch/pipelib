@@ -24,7 +24,7 @@ The initial ideas came from [Singularity Registry HPC (shpc)](https://github.com
 
 ## Contributors
 
-We use the [all-contributors](https://github.com/all-contributors/all-contributors) 
+We use the [all-contributors](https://github.com/all-contributors/all-contributors)
 tool to generate a contributors graphic below.
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->

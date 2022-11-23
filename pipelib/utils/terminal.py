@@ -3,9 +3,10 @@ __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
 
-from pipelib.logger import logger
-from subprocess import Popen, PIPE, STDOUT
 import os
+from subprocess import PIPE, STDOUT, Popen
+
+from pipelib.logger import logger
 
 
 def which(software=None, strip_newline=True):
@@ -21,7 +22,7 @@ def which(software=None, strip_newline=True):
             result["message"] = result["message"].strip("\n")
         return result
 
-    except:  # FileNotFoundError
+    except Exception:
         return None
 
 
@@ -33,7 +34,7 @@ def get_userhome():
         import pwd
 
         return pwd.getpwuid(os.getuid())[5]
-    except:
+    except Exception:
         return os.environ.get("HOME") or os.environ.get("HOMEPATH")
 
 
@@ -45,7 +46,7 @@ def get_user():
         import pwd
 
         return pwd.getpwuid(os.getuid())[0]
-    except:
+    except Exception:
         return os.environ.get("USER") or os.environ.get("USERNAME")
 
 
@@ -63,7 +64,7 @@ def check_install(software, quiet=True, command="--version"):
     cmd = [software, command]
     try:
         version = run_command(cmd, software)
-    except:  # FileNotFoundError
+    except Exception:  # FileNotFoundError
         return False
     if version:
         if not quiet and version["return_code"] == 0:

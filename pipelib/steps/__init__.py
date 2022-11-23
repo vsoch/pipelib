@@ -1,8 +1,4 @@
-from . import filters
-from . import transform
-from . import container
-from . import sort
-from . import release
+from . import container, filters, release, sort, transform
 
 all_steps = {
     "filter": filters._lookup,

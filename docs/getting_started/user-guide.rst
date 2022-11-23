@@ -73,14 +73,14 @@ Here is a simple example to process and filter a list of strings:
     # ['item-one']
 
 In the above, you can always use the `~` symbol to reverse the functionality of a step.
-E.g., a step named `steps.HasMinLength()` will return True given that an item has a min length 
-that you've provided, and the item will be kept for further processing in the pipeline. 
+E.g., a step named `steps.HasMinLength()` will return True given that an item has a min length
+that you've provided, and the item will be kept for further processing in the pipeline.
 However, `~steps.HasMinLength()` will do the opposite, not including those same items that have
-the min length (and keeping those that do not). 
+the min length (and keeping those that do not).
 
 
 .. _getting_started-user-guide-usage-pipeline-logic:
-   
+
 Pipeline Logic
 --------------
 
@@ -170,7 +170,7 @@ sort.
 
 
 .. _getting_started-user-guide-usage-docker-tags:
-   
+
 
 A Real World Example - Docker Tags
 ----------------------------------
@@ -252,8 +252,8 @@ the result we get back is:
      '0.8.27.4',
      '0.8.26.3',
      '0.8.22.4']
-    
-Do you see a problem with this? These are the filtered and reduced original tags, but they aren't 
+
+Do you see a problem with this? These are the filtered and reduced original tags, but they aren't
 super useful to us if we actually need to pull the containers! Although it's neat to see that N=50 has been
 reduced to N=22, and that the parser is honoring our request to consider patches as unique, we can't really do
 anything with this. Let's try again, but asking pipelib to not "unwrap" the result:
@@ -298,10 +298,10 @@ parsing step to ask for unique versions on the level of major, minor, or patch (
 Here we ask for just minor versions:
 
 .. code-block:: python
-    
+
     # A pipeline to process docker tags
     steps = (
-   
+
        # don't include tags with boost
        ~step.filters.HasPatterns(filters=["boost"]),
 
@@ -398,7 +398,7 @@ You can easily look at the steps that are provided:
 
     from pipelib.steps import all_steps
     In [1]: all_steps
-    Out[1]: 
+    Out[1]:
     {'filter': {'HasMaxLength': pipelib.steps.filters.numeric.HasMaxLength,
       'HasMinLength': pipelib.steps.filters.numeric.HasMinLength,
       'HasAllLetters': pipelib.steps.filters.strings.HasAllLetters,
@@ -412,5 +412,5 @@ You can easily look at the steps that are provided:
      'container': {'ContainerTagSort': pipelib.steps.container.tags.ContainerTagSort},
      'sort': {'BasicSort': pipelib.steps.sort.basic.BasicSort},
      'release': {'MajorTagSort': pipelib.steps.release.tags.MajorTagSort}}
-    
+
 This library is under development and we will have more documentation coming soon!

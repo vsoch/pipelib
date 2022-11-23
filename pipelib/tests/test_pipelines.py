@@ -6,12 +6,9 @@
 # Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import pytest
 
-import pipelib.steps as step
-import pipelib.pipelines as pipelines
 import pipelib.pipeline as pipeline
-import pipelib.utils
+import pipelib.steps as step
 
 
 def test_basic_pipeline():

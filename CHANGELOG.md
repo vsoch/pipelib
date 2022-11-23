@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/vsoch/pipelib/tree/main) (0.0.x)
+ - skip empty version strings in container tags (0.0.15)
  - support for major tag sort (0.0.14)
  - bug that re-using pipeline will remove steps (0.0.13)
  - shared operator for AND / OR (0.0.12)

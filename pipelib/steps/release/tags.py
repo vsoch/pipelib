@@ -2,10 +2,11 @@ __author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2022, Vanessa Sochat"
 __license__ = "MPL 2.0"
 
-from pipelib.steps import step
 import pipelib.wrappers as wrappers
+from pipelib.steps import step
 
 # Major tags sort
+
 
 class MajorTagSort(step.BaseStep):
     """
@@ -24,6 +25,7 @@ class MajorTagSort(step.BaseStep):
     >>> pipeline.run(["v3", "1.2.3", "v2"])
     ['v3', 'v1']
     """
+
     def run(self, items: list) -> list:
         """
         Wrap in a LooseVersion to allow sort and filter of tags.
