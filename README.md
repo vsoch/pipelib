@@ -2,6 +2,9 @@
 
 
 [![PyPI version](https://badge.fury.io/py/pipelib.svg)](https://badge.fury.io/py/pipelib)
+[![DOI](https://zenodo.org/badge/482741082.svg)](https://zenodo.org/badge/latestdoi/482741082)
+
+
 
 Pipelib is a library for creating pipelines. You can parse, compare, and order iterables. With Pipelib you can:
 
