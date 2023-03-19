@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pipelib.logger &mdash; Pipelib 0.0.15 documentation</title>
+  <title>pipelib.logger &mdash; Pipelib 0.0.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sphinx-argparse.css" type="text/css" />
@@ -14,9 +14,6 @@
   <![endif]-->
   
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -29,14 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> Pipelib
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Pipelib
           </a>
               <div class="version">
-                0.0.15
+                0.0.16
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -66,7 +67,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">pipelib.logger</li>
       <li class="wy-breadcrumbs-aside">
@@ -91,7 +92,6 @@
 
 
 <div class="viewcode-block" id="ColorizingStreamHandler"><a class="viewcode-back" href="../../api_reference/internal/pipelib.html#pipelib.logger.ColorizingStreamHandler">[docs]</a><span class="k">class</span> <span class="nc">ColorizingStreamHandler</span><span class="p">(</span><span class="n">_logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">):</span>
-
     <span class="n">BLACK</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">YELLOW</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">,</span> <span class="n">MAGENTA</span><span class="p">,</span> <span class="n">CYAN</span><span class="p">,</span> <span class="n">WHITE</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
     <span class="n">RESET_SEQ</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m&quot;</span>
     <span class="n">COLOR_SEQ</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[</span><span class="si">%d</span><span class="s2">m&quot;</span>
@@ -207,7 +207,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Logger.text_handler"><a class="viewcode-back" href="../../api_reference/internal/pipelib.html#pipelib.logger.Logger.text_handler">[docs]</a>    <span class="k">def</span> <span class="nf">text_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;The default snakemake log handler.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The default snakemake log handler.</span>
 <span class="sd">        Prints the output to the console.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            msg (dict):     the log message dictionary</span>
