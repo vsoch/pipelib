@@ -72,7 +72,6 @@ class ContainerTagSort(step.BaseStep):
         seen = set()
 
         for version in items:
-
             # Not able to parse, period
             if not version.version:
                 continue
