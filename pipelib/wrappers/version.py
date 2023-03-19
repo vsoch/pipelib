@@ -79,8 +79,30 @@ class VersionWrapper(Wrapper, LooseVersion):
         if len(components) >= 3:
             self._major_minor_patch = components[0:3]
         self.version = components
+        print(f"Setting version to {self.version}")
+
+    def __lt__(self, other) -> bool:
+        return self.version < other.version
+
+    def __le__(self, other) -> bool:
+        return self.version <= other.version
+
+    def __eq__(self, other) -> bool:
+        return self.version == other.version
+
+    def __ge__(self, other) -> bool:
+        return self.version >= other.version
+
+    def __gt__(self, other) -> bool:
+        return self.version > other.version
+
+    def __ne__(self, other) -> bool:
+        return self.version != other.version
 
     def _cmp(self, other):
+        """
+        This function is left for older versions of packaging.
+        """
         if isinstance(other, str):
             other = LooseVersion(other)
 

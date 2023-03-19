@@ -94,7 +94,6 @@ class Step(BaseStep):
         """
         keepers = []
         for item in items:
-
             # Keep the item if the outcome is True
             updated = self._run(item, **self.kwargs)
 
@@ -126,7 +125,6 @@ class BooleanStep(BaseStep):
     """
 
     def __init__(self, **kwargs):
-
         # Make sure we don't re-create anything!
         if not hasattr(self, "reverse"):
             self.reverse = False
@@ -212,7 +210,6 @@ class BooleanStep(BaseStep):
 
             # Update the result with each check
             for entry in self.composed:
-
                 # If we don't have a result, AND is True, OR is False
                 if result is None:
                     result = True if operator == "AND" else False
@@ -254,7 +251,6 @@ class BooleanStep(BaseStep):
         """
         keepers = []
         for item in items:
-
             # Keep the item if the outcome is True
             outcome = self._run(item, **self.kwargs)
 

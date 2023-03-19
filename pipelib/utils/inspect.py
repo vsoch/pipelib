@@ -28,7 +28,6 @@ def dynamic_import(name, path, allow_repeats=False):
 
         # Add everything to this
         for obj in dir(imported_module):
-
             # We only care about classes (steps)
             new_module = imported_module.__dict__[obj]
             if not inspect.isclass(new_module):

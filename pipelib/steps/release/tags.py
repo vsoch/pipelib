@@ -44,7 +44,6 @@ class MajorTagSort(step.BaseStep):
         seen = set()
 
         for version in items:
-
             # Keep all that are only major versions
             if version.major and not version.major_minor and version not in seen:
                 filtered.append(version)
