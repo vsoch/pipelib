@@ -20,6 +20,17 @@
             "avatar_url": [
                 "https://avatars.githubusercontent.com/u/814322?v=4"
             ]
+        },
+        {
+            "login": "berquist",
+            "name": "Eric Berquist",
+            "contributions": [
+                "code"
+            ],
+            "profile": "https://github.com/berquist",
+            "avatar_url": [
+                "https://avatars.githubusercontent.com/u/727571?v=4"
+            ]
         }
     ],
     "contributorsPerLine": 7
