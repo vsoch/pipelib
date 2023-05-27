@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/vsoch/pipelib/tree/main) (0.0.x)
+ - bug that VersionWrapper wasn't hashable (0.0.17)
  - support for new variant of packaging (0.0.16)
  - skip empty version strings in container tags (0.0.15)
  - support for major tag sort (0.0.14)
