@@ -81,6 +81,9 @@ class VersionWrapper(Wrapper, LooseVersion):
         self.version = components
         print(f"Setting version to {self.version}")
 
+    def __hash__(self) -> int:
+        return hash(tuple(self.version))
+
     def __lt__(self, other) -> bool:
         return self.version < other.version
 
